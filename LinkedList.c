@@ -42,25 +42,35 @@ void linked_list_add(TLinkedListItem * head, int value){
     current_item->next_item = new_item;
 }
 TLinkedListItem* linked_list_remove_by_index(TLinkedListItem* head, int index){
-    TLinkedListItem *temp_item = head, *current_item = NULL;
-    int count = 0;
     if (head == NULL)
     {
         return NULL;
     }
     
-    if (count == index)
+    if (index == 0)
     {
-        return head->next_item;
+        TLinkedListItem *second_item = head->next_item;
+        free(head);
+        return second_item;
     }
+
+    TLinkedListItem *before_remove_item = head;
     
-    while (count != index)
+    int count = 0;
+    while (count <= index-1)
     {
-        current_item = temp_item;
-        temp_item = temp_item->next_item;
+        if (before_remove_item->next_item == NULL)
+        {
+            return head;
+        }
+
+        before_remove_item = before_remove_item->next_item;
         count++;
     }
-    current_item->next_item = temp_item->next_item;
-    free(temp_item);
-    return head;
-}
+
+    TLinkedListItem *remove_item = before_remove_item->next_item;
+    before_remove_item->next_item = before_remove_item->next_item->next_item;
+    free(remove_item);
+
+    return head;    
+} 
