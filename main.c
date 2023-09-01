@@ -54,8 +54,10 @@ int main()
     // int count = list_search_element(new_list, element, predicate_search_equal_element);
     // printf("%d",count);
     //printf("%s%d","Count elements in linked list: " ,linked_list_count_elements(new_list));
-    // linked_list_add_element_by_index(new_list , 0 , 5);
-    // linked_list_print(new_list);
+    linked_list_add_element_by_index(new_list , 2 , 5);
+    linked_list_print(new_list);
     // new_list = linked_list_reverse(new_list);
     // linked_list_print(new_list);
+//     new_list = linked_list_remove_all(new_list);
+//     linked_list_print(new_list);
 }

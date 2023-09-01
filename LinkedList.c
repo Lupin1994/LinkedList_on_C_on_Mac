@@ -4,6 +4,12 @@
 #include "LinkedList.h"
 
 void linked_list_print(TLinkedListItem *head){
+    if (head == NULL)
+    {
+        printf("Null !");
+        return;
+    }
+    
     TLinkedListItem *list_writer;
     list_writer = head;
     printf("[");
@@ -93,36 +99,50 @@ TLinkedListItem* linked_list_remove_by_index(TLinkedListItem* head, int index){
     return head;    
 } 
 
-void linked_list_add_element_by_index(TLinkedListItem *head, int index , int value){
-    int count = 0;
+TLinkedListItem* linked_list_add_element_by_index(TLinkedListItem *head, int index , int value){
 
-    TLinkedListItem *temp_node = linked_list_create();
-    while (count < index && head->next_item != NULL)
+    if (index == 0)
     {
-        head = head->next_item;
-        count++;
+        TLinkedListItem *new_head = linked_list_create();
+        new_head->value = value;
+        new_head->next_item = head;
+        return new_head;
     }
-    temp_node->value = value;
 
-    if (head->next_item != NULL)
-    {
-        temp_node->next_item = head->next_item;
+    int count = 1;
+
+    TLinkedListItem *current_item = head->next_item;
+    while (count < index - 1)
+    { 
+        current_item = current_item->next_item;
+        if (current_item == NULL)
+        {
+            printf("Index out of range! ");
+            return head; 
+        }
+        count++;  
     }
-    else
-    {
-        temp_node->next_item = NULL;
-    }
-    head->next_item = temp_node;
+    TLinkedListItem *before_index_item = current_item;
+
+    TLinkedListItem *new_node = linked_list_create();
+    new_node->value = value;
+    new_node->next_item = before_index_item->next_item;
+
+    before_index_item->next_item = new_node;
+
+    return head;
 }
+
 
 int linked_list_count_elements(TLinkedListItem *head){
     int count = 0;
+
     while (head != NULL)
     {
         count++;
         head = head->next_item;
     }
-    return count - 1;
+    return count;
     
 }
 
@@ -167,12 +187,17 @@ TLinkedListItem* linked_list_reverse (TLinkedListItem *head){
     return reverse_linked_list;
 }
 
-void linked_list_remove_all(TLinkedListItem *head){
+TLinkedListItem* linked_list_remove_all(TLinkedListItem *head){
+
     TLinkedListItem *remove_element = linked_list_create();
+    TLinkedListItem *current_item = head;
+
     do
     {
-        remove_element = head;
-        head = head->next_item;
+        remove_element = current_item;
+        current_item = current_item->next_item;
         free(remove_element);
-    } while (head != NULL); 
+    } while (current_item != NULL); 
+
+    return NULL;
 }
